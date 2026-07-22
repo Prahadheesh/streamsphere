@@ -1,0 +1,19 @@
+.movie-row {
+  padding: 40px 60px;
+}
+
+.movie-row h2 {
+  margin-bottom: 20px;
+  font-size: 28px;
+}
+
+.movie-list {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.movie-list::-webkit-scrollbar {
+  display: none;
+}
