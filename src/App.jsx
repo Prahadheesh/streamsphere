@@ -1,10 +1,15 @@
-import './App.css';
+import "./App.css";
+import Navbar from "./components/layout/Navbar";
+import Home from "./pages/Home";
+import Footer from "./components/layout/Footer";
 
 function App() {
   return (
-    <div>
-      <h1>StreamSphere</h1>
-    </div>
+    <>
+      <Navbar />
+      <Home />
+      <Footer />
+    </>
   );
 }
 
