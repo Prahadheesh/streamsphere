@@ -182,3 +182,14 @@
     border-right-color: var(--border);
   }
 }
+
+.app-layout {
+  display: flex;
+  min-height: calc(100vh - 72px);
+}
+
+.main-content {
+  flex: 1;
+  margin-left: 240px;
+  padding: 24px;
+}
