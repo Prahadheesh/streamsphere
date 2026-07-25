@@ -6,7 +6,6 @@ import Button from "../ui/Button";
 import PasswordInput from "./PasswordInput";
 
 import useAuth from "../../hooks/useAuth";
-import authService from "../../services/authService";
 import {
   validateEmail,
   validatePassword,
@@ -15,35 +14,41 @@ import {
 
 function SignupForm() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { signup } = useAuth();
+  const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
 
     if (!validateRequired(name)) {
-      alert("Please enter your name.");
+      setError("Please enter your name.");
       return;
     }
 
     if (!validateEmail(email)) {
-      alert("Please enter a valid email.");
+      setError("Please enter a valid email.");
       return;
     }
 
     if (!validatePassword(password)) {
-      alert("Password must be at least 6 characters.");
+      setError("Password must be at least 6 characters.");
       return;
     }
 
-    const result = authService.signup(name, email, password);
-
-    if (result.success) {
-      login(result.user);
+    try {
+      setSubmitting(true);
+      await signup(name, email, password);
       navigate("/");
+    } catch (err) {
+      setError(err.message || "Signup failed. Please try again.");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -78,9 +83,12 @@ function SignupForm() {
         onChange={(e) => setPassword(e.target.value)}
       />
 
+      {error && <p style={{ color: "#e74c3c" }}>{error}</p>}
+
       <Button
-        text="Create Account"
+        text={submitting ? "Creating account..." : "Create Account"}
         type="submit"
+        disabled={submitting}
       />
 
       <p style={{ marginTop: "16px" }}>
